@@ -1,0 +1,297 @@
+/* === GLOBAL RESET === */
+:root {
+  --primary: #4f46e5; /* Vibrant indigo for a modern feel */
+  --primary-dark: #3730a3;
+  --accent: #10b981; /* Emerald green for buttons */
+  --accent-dark: #047857;
+  --background: #f9fafb; /* Light neutral background */
+  --card-bg: #ffffff;
+  --text: #111827;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-hover: rgba(0, 0, 0, 0.15);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* === MAIN CONTAINER === */
+.task-container {
+  display: flex;
+  width: 98%; /* Increased to take more horizontal space */
+  max-width: 1800px; /* Larger max-width for wider layout */
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px var(--shadow);
+  overflow: hidden;
+  margin: 20px auto; /* Reduced top/bottom margin to maximize vertical space */
+  min-height: 85vh; /* Increased vertical space to ~85% of viewport height */
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect for container */
+.task-container:hover {
+  transform: translateY(-5px);
+}
+
+/* === STACK (LEFT SIDE) === */
+.stack {
+  flex: 1; /* Maintain original flex ratio */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 48px 32px;
+  background: linear-gradient(180deg, #f8fafc, #e5e7eb); /* Subtle gradient */
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  max-width: 250px; /* Slightly reduced to give more space to task-list */
+}
+
+.stack-box {
+  height: 80px;
+  margin-top: 24px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  padding-left: 28px;
+  letter-spacing: 0.4px;
+  box-shadow: 0 8px 20px var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle shine effect on stack-box */
+.stack-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.stack-box:hover::before {
+  left: 100%;
+}
+
+.stack-box:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 30px var(--shadow-hover);
+}
+
+/* Completed stack-box */
+.stack-box.completed {
+  background: linear-gradient(135deg, #9ca3af, #6b7280);
+  opacity: 0.7;
+}
+
+/* === TASK LIST (RIGHT SIDE) === */
+.task-list {
+  flex: 4; /* Increased flex ratio to take more horizontal space */
+  padding: 56px 80px; /* Increased horizontal padding for wider content area */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+  background: var(--card-bg);
+  min-height: 100%; /* Ensure it takes full container height */
+}
+
+.task-list h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 40px;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Input + button row */
+.task-input-container {
+  display: flex;
+  align-items: center;
+  gap: 32px; /* Increased gap for better separation */
+  margin-bottom: 48px; /* More vertical space */
+  max-width: 100%;
+}
+
+/* Input field */
+.task-list input[type="text"] {
+  flex: 1;
+  padding: 18px 32px; /* Increased padding for larger input area */
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 1.3rem; /* Larger font for readability */
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background: var(--background);
+  min-width: 0;
+  width: 100%; /* Full width for long text */
+}
+
+/* Input focus state */
+.task-list input[type="text"]:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 5px rgba(79, 70, 229, 0.2);
+}
+
+/* Add button */
+.task-list button {
+  padding: 18px 48px; /* Increased padding for larger button */
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* Button hover state */
+.task-list button:hover {
+  background: linear-gradient(135deg, var(--accent-dark), #065f46);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px var(--shadow-hover);
+}
+
+/* Task items */
+.task-list ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 32px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.task-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card-bg);
+  padding: 20px 40px; /* Increased horizontal padding */
+  border-radius: 12px;
+  margin-bottom: 20px; /* More vertical spacing */
+  font-size: 1.4rem; /* Larger font for better readability */
+  font-weight: 500;
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  gap: 32px; /* Increased gap between text and button */
+}
+
+/* Task item hover state */
+.task-list li:hover {
+  background: var(--background);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+/* Task text */
+.task-list li span {
+  flex: 1;
+  overflow-wrap: break-word; /* Ensure long text wraps */
+  max-width: 80%; /* Prevent text from touching delete button */
+}
+
+/* Completed task text */
+.task-list li span.completed {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Delete button */
+.task-list li button {
+  background: #ef4444;
+  padding: 12px 24px; /* Larger padding for better clickability */
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* Delete button hover state */
+.task-list li button:hover {
+  background: #b91c1c;
+  transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .task-container {
+    flex-direction: column;
+    width: 95%;
+    min-height: auto; /* Adjust for mobile */
+  }
+
+  .stack {
+    max-width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 24px;
+  }
+
+  .task-list {
+    padding: 32px 24px; /* Reduced but still spacious */
+    flex: 1; /* Take full width in mobile */
+  }
+
+  .task-input-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .task-list input[type="text"] {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 1.2rem;
+  }
+
+  .task-list button {
+    width: 100%;
+    padding: 16px 24px;
+  }
+
+  .task-list li {
+    padding: 16px 24px;
+    font-size: 1.2rem;
+    gap: 16px;
+  }
+
+  .task-list li span {
+    max-width: 70%; /* Slightly less on mobile to fit button */
+  }
+
+  .task-list h2 {
+    font-size: 2rem;
+  }
+}
